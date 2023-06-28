@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bezkoder</groupId>
-	<artifactId>spring-boot-jpa-postgresql</artifactId>
+	<artifactId>spring-boot-dynamodb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-jpa-postgresql</name>
 	<description>Spring Boot, PostgreSQL example with Maven, Spring JPA</description>
@@ -19,21 +19,30 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-dynamodb</artifactId>
+		    <version>1.12.305</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.22</version>
+		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20220320</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -52,6 +61,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<environmentVariables>
+						<SPRING_PROFILES_ACTIVE>localdev</SPRING_PROFILES_ACTIVE>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

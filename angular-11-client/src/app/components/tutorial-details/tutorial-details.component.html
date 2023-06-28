@@ -30,27 +30,29 @@
     </form>
 
     <button
-      class="badge badge-primary mr-2"
       *ngIf="currentTutorial.published"
+      class="btn btn-outline-secondary"
       (click)="updatePublished(false)"
     >
       UnPublish
     </button>
     <button
       *ngIf="!currentTutorial.published"
-      class="badge bg-primary mr-2"
+      class="btn btn-outline-secondary"
       (click)="updatePublished(true)"
     >
       Publish
     </button>
 
-    <button class="badge bg-danger mr-2" (click)="deleteTutorial()">
+    <button 
+    class="btn btn-outline-secondary"
+    (click)="deleteTutorial()">
       Delete
     </button>
 
     <button
       type="submit"
-      class="badge bg-success mb-2"
+      class="btn btn-outline-secondary"
       (click)="updateTutorial()"
     >
       Update

@@ -32,10 +32,10 @@
       </div>
       <div>
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? 'Published' : 'Pending' }}
+        {{ currentTutorial.published ? "Published" : "Pending" }}
       </div>
 
-      <a routerLink="/tutorials/{{ currentTutorial.id }}"> <span class="badge bg-primary">Edit</span> </a>
+      <a class="btn btn-outline-secondary" routerLink="/tutorials/{{ currentTutorial.id }}"> Edit </a>
     </div>
   </div>
 </div>

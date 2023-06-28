@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  endpoint: 'http://localhost:8080/api/tutorials'
+  // endpoint: 'http://localhost:8083/api/tutorials'
+  endpoint: 'http://Jaws-env-1.eba-dp4bdmqb.eu-west-2.elasticbeanstalk.com:8083/api/tutorials'
 };
 
 /*
@@ -14,4 +15,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
