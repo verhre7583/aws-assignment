@@ -1,0 +1,313 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Sample SAM Template for ToDo
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+
+Parameters:
+  DynamoDBEndpointUrl:
+    Description: 'DynamoDB Endpoint URL'
+    Type: String
+    Default: 'dynamodb.eu-central-1.amazonaws.com'
+#    Default: 'localhost.localstack.cloud:4566' # relevant for samlocal based run
+
+  AwsRegion:
+    Description: 'AWS Region'
+    Type: String
+    Default: 'eu-central-1'
+
+Resources:
+  ##########################################################################
+  #   API Gateway                                                     #
+  ##########################################################################
+  ApiGatewayApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: 'Prod'
+
+  ##########################################################################
+  #   Lambda Functions                                                     #
+  ##########################################################################
+  GetTutorialsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: get-tutorials
+      Handler: com.bezkoder.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+          REGION: !Ref AwsRegion
+          DYNAMODB_ENDPOINT: !Ref DynamoDBEndpointUrl
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMODB_TABLE: !Ref TutorialsTable
+
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the TutorialsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TutorialsTable
+
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /api/tutorials
+            Method: get
+            ApiId:
+              Ref: ApiGatewayApi
+
+  GetTutorialByIdFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: get-tutorial-by-id
+      Handler: com.bezkoder.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+          REGION: !Ref AwsRegion
+          DYNAMODB_ENDPOINT: !Ref DynamoDBEndpointUrl
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMODB_TABLE: !Ref TutorialsTable
+
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the TutorialsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TutorialsTable
+
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /api/tutorials/{id}
+            Method: get
+            ApiId:
+              Ref: ApiGatewayApi
+
+  PostTutorialFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: post-tutorial
+      Handler: com.bezkoder.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+          REGION: !Ref AwsRegion
+          DYNAMODB_ENDPOINT: !Ref DynamoDBEndpointUrl
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMODB_TABLE: !Ref TutorialsTable
+
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the TutorialsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TutorialsTable
+
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /api/tutorials
+            Method: post
+            ApiId:
+              Ref: ApiGatewayApi
+
+  PutTutorialByIdFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: put-tutorial-by-id
+      Handler: com.bezkoder.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+          REGION: !Ref AwsRegion
+          DYNAMODB_ENDPOINT: !Ref DynamoDBEndpointUrl
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMODB_TABLE: !Ref TutorialsTable
+
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the TutorialsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TutorialsTable
+
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /api/tutorials/{id}
+            Method: put
+            ApiId:
+              Ref: ApiGatewayApi
+
+  DeleteTutorialByIdFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: delete-tutorial-by-id
+      Handler: com.bezkoder.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
+          REGION: !Ref AwsRegion
+          DYNAMODB_ENDPOINT: !Ref DynamoDBEndpointUrl
+          # Make table name accessible as environment variable from function code during execution
+          DYNAMODB_TABLE: !Ref TutorialsTable
+
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the TutorialsDynamoDBTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TutorialsTable
+
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /api/tutorials/{id}
+            Method: delete
+            ApiId:
+              Ref: ApiGatewayApi
+
+  ##########################################################################
+  #   DynamoDB Table                                                       #
+  ##########################################################################
+  TutorialsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+  ##########################################################################
+  #   Cloudfront                                                       #
+  ##########################################################################
+
+  CloudfrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        HttpVersion: http2
+        DefaultRootObject: index.html
+        Origins:
+          - Id: S3Origin
+            DomainName: !GetAtt S3Bucket.RegionalDomainName
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
+          - Id: LambdaOrigin
+            DomainName: !Sub "${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com"
+            OriginPath: /Prod
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        Enabled: 'true'
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          ViewerProtocolPolicy: redirect-to-https
+          SmoothStreaming: 'false'
+          Compress: 'true'
+          ForwardedValues:
+            QueryString: 'false'
+          # CachingDisabled ref, see: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-policy-caching-disabled
+          CachePolicyId: '4135ea2d-6df8-44a3-9df3-4b5a84be39ad'
+          # CORS-S3Origin ref, see: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#managed-origin-request-policy-all-viewer
+          OriginRequestPolicyId: '88a5eaf4-2fd4-4709-b370-b4c650ea3fcf'
+        CacheBehaviors:
+          - TargetOriginId: LambdaOrigin
+            PathPattern: '/api/*'
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - POST
+              - PATCH
+              - DELETE
+            ViewerProtocolPolicy: redirect-to-https
+            SmoothStreaming: 'false'
+            Compress: 'true'
+            ForwardedValues:
+              QueryString: 'false'
+            # CachingDisabled ref, see: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-policy-caching-disabled
+            CachePolicyId: '4135ea2d-6df8-44a3-9df3-4b5a84be39ad'
+
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !GetAtt S3Bucket.RegionalDomainName
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  ##########################################################################
+  #   S3 Bucket for static website hosting                                 #
+  ##########################################################################
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Action: s3:GetObject
+            Effect: Allow
+            Resource: !Sub ${S3Bucket.Arn}/*
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudfrontDistribution}
+
+Outputs:
+  ClientS3Bucket:
+    Description: "S3 bucket for client site publishing"
+    Value: !Ref S3Bucket
+  DynamoDbTable:
+    Description: "DynamoDB Table where tasks are stored"
+    Value: !Ref TutorialsTable
+  TutorialsApi:
+    Description: "API Gateway endpoint URL for Get Tutorials function"
+    Value: !Sub "https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/tutorials"
+  CloudFrontUrl:
+    Description: "CloudFront URL"
+    Value: !Sub "https://${CloudfrontDistribution.DomainName}"

@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    hostname: localhost.localstack.cloud
+    environment:
+      - AWS_DEFAULT_REGION=eu-central-1
+      - EDGE_PORT=4566
+      - LS_LOG=debug
+    ports:
+      - '4566:4566'
