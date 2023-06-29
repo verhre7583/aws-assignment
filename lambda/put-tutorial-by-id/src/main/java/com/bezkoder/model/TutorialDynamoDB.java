@@ -29,15 +29,18 @@ public class TutorialDynamoDB {
 	@DynamoDBAttribute
 	private boolean published;
 
+	@DynamoDBAttribute
+	private String priority;
+
 	public TutorialDynamoDB(String title, String description, boolean published) {
 		this.title = title;
 		this.description = description;
 		this.published = published;
+		this.priority= priority;
 	}
 
 	@Override
 	public String toString() {
-		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + ", priority=" + priority + "]";
 	}
-
 }

@@ -1,3 +1,10 @@
+
+<script>
+let color-value = "red"
+document.getElementById("priority-marker").style.color = color-value;
+</script>
+
+
 <div class="list row">
   <div class="col-md-8">
     <div class="input-group mb-3">
@@ -17,7 +24,11 @@
         [class.active]="i == currentIndex"
         (click)="setActiveTutorial(tutorial, i)"
       >
-        {{ tutorial.title }}
+        <div class="entry">
+          <div id="priority-marker" style="color:MediumSeaGreen;" class="entry-child-marker">&#9632;</div>
+          <div class="entry-child-title">{{ tutorial.title }} </div>
+        </div>
+        Priority: {{tutorial.priority }}
       </li>
     </ul>
   </div>
@@ -25,16 +36,23 @@
   <div class="col-md-6">
     <div *ngIf="currentTutorial">
       <h4>Action</h4>
+
       <div>
         <label><strong>Title:</strong></label> {{ currentTutorial.title }}
       </div>
+
       <div>
         <label><strong>Description:</strong></label>
         {{ currentTutorial.description }}
       </div>
+
       <div>
         <label><strong>Status:</strong></label>
         {{ currentTutorial.published ? 'Published' : 'Pending' }}
+      </div>
+
+      <div>
+      <label><strong>Priority:</strong></label> {{ currentTutorial.priority }}
       </div>
 
       <a class="badge bg-warning" routerLink="/tutorials/{{ currentTutorial.id }}"> Edit </a>

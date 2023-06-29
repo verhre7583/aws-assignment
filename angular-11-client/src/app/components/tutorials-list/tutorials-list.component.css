@@ -3,3 +3,17 @@
   max-width: 750px;
   margin: auto;
 }
+
+.entry{
+   padding: 5px;
+}
+
+.entry-child-marker{
+   float: left;
+}
+
+.entry-child-title{
+   float: left;
+   padding-left: 20px;
+}
+

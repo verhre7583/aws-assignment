@@ -2,6 +2,7 @@
   <div *ngIf="currentTutorial.id" class="edit-form">
     <h4>Tutorial</h4>
     <form>
+
       <div class="form-group">
         <label for="title">Title</label>
         <input
@@ -12,6 +13,7 @@
           name="title"
         />
       </div>
+
       <div class="form-group">
         <label for="description">Description</label>
         <input
@@ -20,6 +22,17 @@
           id="description"
           [(ngModel)]="currentTutorial.description"
           name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <input
+          type="text"
+          class="form-control"
+          id="priority"
+          [(ngModel)]="currentTutorial.priority"
+          name="priority"
         />
       </div>
 
@@ -36,6 +49,7 @@
     >
       UnPublish
     </button>
+
     <button
       *ngIf="!currentTutorial.published"
       class="badge bg-primary mr-2"

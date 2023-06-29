@@ -12,7 +12,8 @@ export class TutorialDetailsComponent implements OnInit {
   currentTutorial: Tutorial = {
     title: '',
     description: '',
-    published: false
+    published: false,
+    priority: ''
   };
   message = '';
 
@@ -42,7 +43,8 @@ export class TutorialDetailsComponent implements OnInit {
     const data = {
       title: this.currentTutorial.title,
       description: this.currentTutorial.description,
-      published: status
+      published: status,
+      priority: this.currentTutorial.priority
     };
 
     this.message = '';

@@ -37,7 +37,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
 
         tutorial = tutorialDynamoDBRepository
-                .save(new TutorialDynamoDB(tutorial.getTitle(), tutorial.getDescription(), false));
+                .save(new TutorialDynamoDB(tutorial.getTitle(), tutorial.getDescription(), false, tutorial.getPriority() ));
 
         String body = gson.toJson(tutorial);
         logger.log("Body: " + body);
