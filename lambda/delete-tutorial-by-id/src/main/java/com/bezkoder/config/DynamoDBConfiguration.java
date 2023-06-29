@@ -27,6 +27,4 @@ public class DynamoDBConfiguration {
 		return client;
 	}
 
-	// coment Julo
-
 }
